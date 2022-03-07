@@ -18,7 +18,7 @@
 ## Подготовка и запуск проекта
 ### Склонировать репозиторий на локальную машину:
 ```
-git clone https://github.com/imersir/foodgram-project-react.git
+https://gitlab.com/imersir/notification_service.git
 ```
 
 ### Cоздайте файл .env и заполните переменные окружения:
