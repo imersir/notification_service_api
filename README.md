@@ -18,7 +18,7 @@
 ## Подготовка и запуск проекта
 ### Склонировать репозиторий на локальную машину:
 ```
-https://gitlab.com/imersir/notification_service.git
+https://gitlab.com/imersir/notification_service_api
 ```
 
 ### Cоздайте файл .env и заполните переменные окружения:
@@ -52,7 +52,8 @@ python manage.py runserver
 Для использования dockera, в файле settings, разкомментировать блок
 #PostgreSQL
 Для подключения БД PostgreSQL
-и не забыть убрать блок с
+
+и удалить блок
 #SQlite
 
 Собрать образ и запустить
