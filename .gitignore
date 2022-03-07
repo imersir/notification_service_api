@@ -7,9 +7,6 @@
 
 # Icon must end with two \r
 Icon
-__pycache__/
-*.py[cod]
-*$py.class
 
 # Thumbnails
 ._*
