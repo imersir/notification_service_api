@@ -7,7 +7,9 @@
 
 # Icon must end with two \r
 Icon
-
+__pycache__/
+*.py[cod]
+*$py.class
 
 # Thumbnails
 ._*
@@ -89,4 +91,5 @@ local_settings.py
 db.sqlite3
 venv
 static
+# .idea
 .idea
