@@ -42,8 +42,9 @@ def send_msg(msgld, phone, text, ):
             send_msg(data)
             logger.debug(f'Отправка рассылки {msgld.id} завершена')
         massage.sending_status = response.status
-    except requests.exceptions.ConnectionError:
+    except requests.exceptions.ConnectionError as e:
         massage.sending_status = 'Ошибка подключения'
+        logger.exception(f'Ошибка {e}')
     massage.save()
 
 
