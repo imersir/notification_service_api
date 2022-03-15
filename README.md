@@ -15,9 +15,23 @@
 ## Подготовка и запуск проекта
 ### Склонировать репозиторий на локальную машину:
 ```
-https://gitlab.com/imersir/notification_service_api
+git clone https://github.com/imersir/notification_service_api.git
 ```
-
+### Использование на локальном сервере
+```
+Перейти в раздел notification (cd notification)
+Выполнить команды миграции
+python manage.py makemigrations
+python manage.py migrate
+```
+### Запуск сервера
+```
+python manage.py runserver
+```
+```
+Документация будет доступа по ссылке 127.0.0.1:8000/docs/ или 127.0.0.1:8000/redoc/
+```
+### Для использования Docker`а
 ### Cоздайте файл .env и заполните переменные окружения:
 ```
 SECRET_KEY=Ключ джанго
@@ -32,17 +46,6 @@ POSTGRES_USER=<имя пользователя>
 POSTGRES_PASSWORD=<пароль для базы данных>
 DB_HOST=db
 DB_PORT=5432
-```
-### Использование на локальном сервере
-```
-Перейти в раздел notification (cd notification)
-Команды миграции
-python manage.py makemigrations
-python manage.py migrate
-```
-### Запуск сервера
-```
-python manage.py runserver
 ```
 ### Cоберите docker-compose:
 ```
