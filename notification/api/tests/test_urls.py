@@ -1,11 +1,12 @@
 from django.test import TestCase
 
-from .models import *
+from ..models import *
 
 
-class APITests(TestCase):
+class ApiURLTests(TestCase):
     @classmethod
-    def setUpTestData(cls):
+    def setUpClass(cls):
+        super().setUpClass()
         cls.tag = Tag.objects.create(
             name='911'
         )
@@ -52,9 +53,3 @@ class APITests(TestCase):
         response = self.client.get(
             'http://127.0.0.1:8000/api/v1/tags/')
         self.assertEqual(response.status_code, 200)
-
-    def test_models_client(self):
-        """Проверяет модель Client"""
-        client = APITests.client
-        object_name = client.phone_number
-        self.assertEqual(object_name, client.phone_number)

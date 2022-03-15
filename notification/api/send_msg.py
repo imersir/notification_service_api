@@ -1,11 +1,12 @@
 import logging
 import os
+from datetime import datetime
 from logging.handlers import RotatingFileHandler
 
 import requests
-from django.utils import timezone
+from django.shortcuts import get_object_or_404
 
-from .models import Message
+from .models import Client, Mailing, Message
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -24,33 +25,39 @@ TOKEN = os.environ.get('API_TOKEN')
 HEADERS = {'Authorization': f'Bearer {TOKEN}'}
 
 
-def send_msg(msgld, phone, text, ):
-    massage = save_results(mailing=msgld)
+def send_msg(msg_id, phone, text, ):
     data = {
-        'id': massage.id,
+        'id': msg_id,
         'phone': phone,
         'text': text
     }
     try:
         response = requests.post(
-            url=URL,
+            url=f'{URL}{msg_id}',
             headers=HEADERS,
             json=data
         )
-        if msgld.start_datetime > msgld.finish_datetime:
-            logger.debug(f'Отправка рассылки {msgld.id}')
+        if msg_id.start_datetime > msg_id.finish_datetime:
+            logger.debug(f'Отправка рассылки {msg_id.id}')
             send_msg(data)
-            logger.debug(f'Отправка рассылки {msgld.id} завершена')
-        massage.sending_status = response.status
-    except requests.exceptions.ConnectionError as e:
-        massage.sending_status = 'Ошибка подключения'
-        logger.exception(f'Ошибка {e}')
-    massage.save()
+            logger.debug(f'Отправка рассылки {msg_id.id} завершена')
+    except requests.RequestException as e:
+        logger.debug(f'Ошибка {e}')
+    else:
+        Message.objects.filter(pk=msg_id).update(status=response.status)
 
 
-def save_results(mailing, status=None):
-    return Message.objects.create(
-        date_time=timezone.now(),
-        status=status,
-        mailing=mailing
+def process_distribution(data):
+    mailing = get_object_or_404(
+        Mailing,
+        id=data.get('id')
     )
+    start_date = data.get('start_datetime')
+    if not start_date or start_date > str(datetime.now()):
+        return None
+    finish_date = data.get('finish_datetime')
+    if finish_date < str(datetime.now()):
+        return None
+    else:
+        msg = Message.objects.create(mailing=mailing, client=Client)
+        send_msg(msg.id, int(Client.phone_number), data.get('text'))

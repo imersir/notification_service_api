@@ -1,6 +1,7 @@
 import os
-from getenv import env
 from pathlib import Path
+
+from getenv import env
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
